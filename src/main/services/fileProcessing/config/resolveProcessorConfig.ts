@@ -29,8 +29,7 @@ export function getFileProcessorConfigById(processorId: FileProcessorId): FilePr
 
       return {
         ...capability,
-        ...(capabilityOverride?.apiHost !== undefined ? { apiHost: capabilityOverride.apiHost } : {}),
-        ...(capabilityOverride?.modelId !== undefined ? { modelId: capabilityOverride.modelId } : {})
+        ...capabilityOverride
       }
     }),
     apiKeys: override?.apiKeys,
