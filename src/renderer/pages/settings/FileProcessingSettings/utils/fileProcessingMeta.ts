@@ -23,11 +23,11 @@ const FILE_PROCESSING_FEATURE_SECTIONS: readonly {
 }[] = [
   {
     feature: 'image_to_text',
-    processors: ['system', 'tesseract', 'paddleocr', 'mistral', 'ovocr']
+    processors: ['system', 'tesseract', 'paddleocr', 'mistral', 'ovocr', 'custom-ocr']
   },
   {
     feature: 'document_to_markdown',
-    processors: ['mistral', 'mineru', 'doc2x', 'open-mineru', 'paddleocr']
+    processors: ['mistral', 'mineru', 'doc2x', 'open-mineru', 'paddleocr', 'custom-document']
   }
 ] as const
 
@@ -86,6 +86,18 @@ const PROCESSOR_DISPLAY_META: Record<FileProcessorId, ProcessorDisplayMeta> = {
     descriptionKey: 'settings.tool.file_processing.processors.open_mineru.description',
     logo: Mineru,
     apiKeyWebsite: 'https://github.com/opendatalab/MinerU/'
+  },
+  'custom-ocr': {
+    nameKey: 'settings.tool.file_processing.processors.custom_ocr.name',
+    descriptionKey: 'settings.tool.file_processing.processors.custom_ocr.description',
+    logo: Application,
+    apiKeyWebsite: null
+  },
+  'custom-document': {
+    nameKey: 'settings.tool.file_processing.processors.custom_document.name',
+    descriptionKey: 'settings.tool.file_processing.processors.custom_document.description',
+    logo: Application,
+    apiKeyWebsite: null
   }
 } as const satisfies Record<FileProcessorId, ProcessorDisplayMeta>
 
@@ -168,6 +180,12 @@ export function getProcessorDescriptionKey(processorId: FileProcessorId): string
 
 export function getProcessorApiKeyWebsite(processorId: FileProcessorId): string | null {
   return PROCESSOR_DISPLAY_META[processorId].apiKeyWebsite
+}
+
+const CUSTOM_PROCESSOR_IDS: ReadonlySet<FileProcessorId> = new Set(['custom-ocr', 'custom-document'])
+
+export function isCustomModelProcessor(processorId: FileProcessorId): boolean {
+  return CUSTOM_PROCESSOR_IDS.has(processorId)
 }
 
 export function getProcessorLogo(processorId: FileProcessorId) {

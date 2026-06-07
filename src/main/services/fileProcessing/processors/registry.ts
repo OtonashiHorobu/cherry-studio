@@ -1,5 +1,7 @@
 import { isMac, isWin } from '@main/core/platform'
 
+import { customDocumentHandler } from './custom-document/handler'
+import { customOcrHandler } from './custom-ocr/handler'
 import { doc2xDocumentToMarkdownHandler } from './doc2x/document-to-markdown/handler'
 import { mineruDocumentToMarkdownHandler } from './mineru/document-to-markdown/handler'
 import { mistralDocumentToMarkdownHandler } from './mistral/document-to-markdown/handler'
@@ -62,6 +64,18 @@ export const processorRegistry = {
     isAvailable: () => true,
     capabilities: {
       document_to_markdown: openMineruDocumentToMarkdownHandler
+    }
+  },
+  'custom-ocr': {
+    isAvailable: () => true,
+    capabilities: {
+      image_to_text: customOcrHandler
+    }
+  },
+  'custom-document': {
+    isAvailable: () => true,
+    capabilities: {
+      document_to_markdown: customDocumentHandler
     }
   }
 } satisfies FileProcessingProcessorRegistry

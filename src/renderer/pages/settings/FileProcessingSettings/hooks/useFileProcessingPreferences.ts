@@ -82,6 +82,25 @@ export function useFileProcessingPreferences() {
     [overrides, updateProcessor]
   )
 
+  const setCapabilityProviderRef = useCallback(
+    async (
+      processorId: FileProcessorId,
+      feature: FileProcessorFeature,
+      providerRef: { providerId: string; modelId: string } | undefined
+    ) => {
+      await updateProcessor(processorId, {
+        capabilities: {
+          ...overrides[processorId]?.capabilities,
+          [feature]: {
+            ...overrides[processorId]?.capabilities?.[feature],
+            providerRef
+          }
+        }
+      })
+    },
+    [overrides, updateProcessor]
+  )
+
   const setLanguageOptions = useCallback(
     async (processorId: Extract<FileProcessorId, 'system' | 'tesseract'>, langs: string[]) => {
       await updateProcessor(processorId, {
@@ -98,6 +117,7 @@ export function useFileProcessingPreferences() {
     processors,
     setApiKeys,
     setCapabilityField,
+    setCapabilityProviderRef,
     setDefaultProcessor,
     setLanguageOptions
   }

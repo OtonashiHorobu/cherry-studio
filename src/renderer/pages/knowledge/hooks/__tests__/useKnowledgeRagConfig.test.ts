@@ -132,7 +132,8 @@ describe('useKnowledgeRagConfig', () => {
       { value: 'mineru', label: 'MinerU' },
       { value: 'doc2x', label: 'Doc2X' },
       { value: 'mistral', label: 'Mistral' },
-      { value: 'open-mineru', label: 'Open MinerU' }
+      { value: 'open-mineru', label: 'Open MinerU' },
+      { value: 'custom-document', label: 'custom-document' }
     ])
     expect(result.current.embeddingModelOptions).toEqual([
       {

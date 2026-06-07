@@ -292,7 +292,9 @@ export const FILE_PROCESSOR_IDS = [
   'mineru',
   'doc2x',
   'mistral',
-  'open-mineru'
+  'open-mineru',
+  'custom-ocr',
+  'custom-document'
 ] as const
 
 export type FileProcessorId = (typeof FILE_PROCESSOR_IDS)[number]
@@ -304,6 +306,7 @@ export type FileProcessorOptions = {
 export type FileProcessorCapabilityOverride = {
   apiHost?: string
   modelId?: string
+  providerRef?: { providerId: string; modelId: string }
 }
 
 export type FileProcessorCapabilityOverrides = Partial<Record<FileProcessorFeature, FileProcessorCapabilityOverride>>

@@ -33,7 +33,13 @@ export const ImageToTextCapabilitySchema = z
     inputs: z.array(FileTypeSchema.extract([FILE_TYPE.IMAGE])).min(1),
     output: z.literal('text'),
     apiHost: z.string().optional(),
-    modelId: z.string().min(1).optional()
+    modelId: z.string().min(1).optional(),
+    providerRef: z
+      .object({
+        providerId: z.string().min(1),
+        modelId: z.string().min(1)
+      })
+      .optional()
   })
   .strict()
 export type ImageToTextCapability = z.infer<typeof ImageToTextCapabilitySchema>
@@ -44,7 +50,13 @@ export const DocumentToMarkdownCapabilitySchema = z
     inputs: z.array(FileTypeSchema.extract([FILE_TYPE.DOCUMENT])).min(1),
     output: z.literal('markdown'),
     apiHost: z.string().optional(),
-    modelId: z.string().min(1).optional()
+    modelId: z.string().min(1).optional(),
+    providerRef: z
+      .object({
+        providerId: z.string().min(1),
+        modelId: z.string().min(1)
+      })
+      .optional()
   })
   .strict()
 export type DocumentToMarkdownCapability = z.infer<typeof DocumentToMarkdownCapabilitySchema>
@@ -124,7 +136,13 @@ export const FileProcessorOptionsSchema: z.ZodType<FileProcessorOptions> = z
 export const FileProcessorCapabilityOverrideSchema: z.ZodType<FileProcessorCapabilityOverride> = z
   .object({
     apiHost: z.string().optional(),
-    modelId: z.string().min(1).optional()
+    modelId: z.string().min(1).optional(),
+    providerRef: z
+      .object({
+        providerId: z.string().min(1),
+        modelId: z.string().min(1)
+      })
+      .optional()
   })
   .strict()
 
@@ -261,6 +279,26 @@ export const FILE_PROCESSOR_PRESET_MAP = {
         inputs: ['document'],
         output: 'markdown',
         apiHost: 'http://127.0.0.1:8000'
+      }
+    ]
+  },
+  'custom-ocr': {
+    type: 'api',
+    capabilities: [
+      {
+        feature: 'image_to_text',
+        inputs: ['image'],
+        output: 'text'
+      }
+    ]
+  },
+  'custom-document': {
+    type: 'api',
+    capabilities: [
+      {
+        feature: 'document_to_markdown',
+        inputs: ['document'],
+        output: 'markdown'
       }
     ]
   }

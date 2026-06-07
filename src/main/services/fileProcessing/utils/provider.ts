@@ -1,3 +1,5 @@
+import { providerService } from '@data/services/ProviderService'
+import { getBaseUrl } from '@main/ai/utils/provider'
 import type { FileProcessorFeature, FileProcessorId } from '@shared/data/preference/preferenceTypes'
 import type { FileProcessorFeatureCapability, FileProcessorMerged } from '@shared/data/presets/file-processing'
 
@@ -55,4 +57,36 @@ export function getRequiredApiHost(capability: Pick<FileProcessorFeatureCapabili
   }
 
   return normalizedApiHost
+}
+
+export interface ResolvedProviderRef {
+  apiKey: string
+  baseUrl: string
+  modelId: string
+}
+
+export async function resolveProviderFromRef(ref: {
+  providerId: string
+  modelId: string
+}): Promise<ResolvedProviderRef> {
+  const provider = await providerService.getByProviderId(ref.providerId)
+  if (!provider) {
+    throw new Error(`Provider ${ref.providerId} not found`)
+  }
+
+  const apiKey = await providerService.getRotatedApiKey(provider.id)
+  if (!apiKey) {
+    throw new Error(`No API key configured for provider ${ref.providerId}`)
+  }
+
+  const baseUrl = getBaseUrl(provider)
+  if (!baseUrl) {
+    throw new Error(`No base URL configured for provider ${ref.providerId}`)
+  }
+
+  return {
+    apiKey,
+    baseUrl: baseUrl.replace(/\/+$/, ''),
+    modelId: ref.modelId
+  }
 }

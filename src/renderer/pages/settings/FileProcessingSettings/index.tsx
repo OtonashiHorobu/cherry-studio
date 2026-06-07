@@ -33,6 +33,7 @@ const FileProcessingSettings: FC = () => {
     processors,
     setApiKeys,
     setCapabilityField,
+    setCapabilityProviderRef,
     setDefaultProcessor,
     setLanguageOptions
   } = useFileProcessingPreferences()
@@ -108,6 +109,7 @@ const FileProcessingSettings: FC = () => {
                 defaultImageProcessor={defaultImageProcessor}
                 onSetApiKeys={setApiKeys}
                 onSetCapabilityField={setCapabilityField}
+                onSetCapabilityProviderRef={setCapabilityProviderRef}
                 onSetDefaultProcessor={setDefaultProcessor}
                 onSetLanguageOptions={setLanguageOptions}
               />

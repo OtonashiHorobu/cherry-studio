@@ -217,8 +217,8 @@ describe('FileProcessingOverrideMappings', () => {
         ],
         ocrProviders: [
           {
-            id: 'custom-ocr',
-            name: 'Custom OCR',
+            id: 'unknown-ocr',
+            name: 'Unknown OCR',
             config: {
               accessToken: 'secret-token'
             }
@@ -236,7 +236,7 @@ describe('FileProcessingOverrideMappings', () => {
         { providerId: 'custom-preprocess' }
       )
       expect(warnSpy).toHaveBeenNthCalledWith(2, 'Skipping unknown OCR provider during file processing migration', {
-        providerId: 'custom-ocr'
+        providerId: 'unknown-ocr'
       })
     })
 

@@ -22,11 +22,13 @@ import {
   getProcessorApiKeyWebsite,
   getProcessorNameKey,
   getTesseractLanguageCode,
+  isCustomModelProcessor,
   shouldShowLanguageOptions,
   supportsApiSettings,
   supportsLanguageConfig
 } from '../utils/fileProcessingMeta'
 import { FileProcessingApiKeyListPopup } from './FileProcessingApiKeyList'
+import { ModelReferenceSelector } from './ModelReferenceSelector'
 import { PaddleOcrDeploymentInfo } from './PaddleOcrDeploymentInfo'
 import { PaddleOcrModelSettings } from './PaddleOcrModelSettings'
 import { ProcessorAvatar } from './ProcessorAvatar'
@@ -45,6 +47,11 @@ type ProcessorPanelProps = {
     field: 'apiHost' | 'modelId',
     value: string
   ) => Promise<void>
+  onSetCapabilityProviderRef: (
+    processorId: FileProcessorId,
+    feature: FileProcessorFeature,
+    providerRef: { providerId: string; modelId: string } | undefined
+  ) => Promise<void>
   onSetDefaultProcessor: (feature: FileProcessorFeature, processorId: FileProcessorId) => Promise<void>
   onSetLanguageOptions: (
     processorId: Extract<FileProcessorId, 'system' | 'tesseract'>,
@@ -58,6 +65,7 @@ export function ProcessorPanel({
   entry,
   onSetApiKeys,
   onSetCapabilityField,
+  onSetCapabilityProviderRef,
   onSetDefaultProcessor,
   onSetLanguageOptions
 }: ProcessorPanelProps) {
@@ -174,6 +182,25 @@ export function ProcessorPanel({
     [onSetLanguageOptions, persist, processor.id]
   )
 
+  const handleProviderRefChange = useCallback(
+    async (providerRef: { providerId: string; modelId: string } | undefined) => {
+      await persist(
+        () => onSetCapabilityProviderRef(processor.id, entry.feature, providerRef),
+        'save provider reference'
+      )
+    },
+    [entry.feature, onSetCapabilityProviderRef, persist, processor.id]
+  )
+
+  const handleModelSelect = useCallback(
+    (ref: { providerId: string; modelId: string } | undefined) => {
+      void handleProviderRefChange(ref)
+    },
+    [handleProviderRefChange]
+  )
+
+  const isCustomProcessor = isCustomModelProcessor(processor.id)
+
   return (
     <div className="flex w-full flex-col gap-3">
       <div className="flex items-center justify-between gap-4">
@@ -196,7 +223,26 @@ export function ProcessorPanel({
 
       <SettingDivider />
 
-      {supportsApiSettings(processor) ? (
+      {isCustomProcessor ? (
+        <>
+          <SettingSubtitle>{t('settings.tool.file_processing.sections.model_selection')}</SettingSubtitle>
+          <SettingRow className="items-start gap-4 py-1">
+            <SettingRowTitle className="w-37.5 shrink-0 pt-2">
+              {t('settings.tool.file_processing.fields.select_model')}
+            </SettingRowTitle>
+            <div className="min-w-0 flex-1">
+              <ModelReferenceSelector
+                feature={entry.feature}
+                providerRef={entry.capability.providerRef}
+                onSelect={handleModelSelect}
+              />
+              <p className="mt-1.5 text-muted-foreground text-xs">
+                {t('settings.tool.file_processing.fields.custom_model_hint')}
+              </p>
+            </div>
+          </SettingRow>
+        </>
+      ) : supportsApiSettings(processor) ? (
         <>
           <SettingSubtitle>{t('settings.tool.file_processing.sections.authentication')}</SettingSubtitle>
           <SettingRow className="items-start gap-4 py-1">

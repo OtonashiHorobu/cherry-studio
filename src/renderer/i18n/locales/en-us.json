@@ -6838,9 +6838,19 @@
           "api_base_url": "API Base URL",
           "api_key": "API Key",
           "api_keys_placeholder": "Separate multiple keys with commas",
-          "languages": "Languages"
+          "custom_model_hint": "Select a model from your configured providers. API key and base URL will be resolved automatically.",
+          "languages": "Languages",
+          "select_model": "Select Model"
         },
         "processors": {
+          "custom_document": {
+            "description": "Use configured model providers for document parsing.",
+            "name": "Custom Document"
+          },
+          "custom_ocr": {
+            "description": "Use configured model providers for OCR recognition.",
+            "name": "Custom OCR"
+          },
           "doc2x": {
             "description": "Advanced file restoration engine.",
             "name": "Doc2x"
@@ -6890,6 +6900,7 @@
           "description": "Description",
           "language_packs": "Language Packs",
           "model_parameters": "Model Parameters",
+          "model_selection": "Model Selection",
           "status": "Status"
         },
         "title": "Document Parsing"

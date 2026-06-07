@@ -6838,9 +6838,19 @@
           "api_base_url": "API 位址 (Base URL)",
           "api_key": "API 金鑰 (API Key)",
           "api_keys_placeholder": "多個金鑰可用逗號分隔",
-          "languages": "語言"
+          "custom_model_hint": "從已設定的模型服務提供商中選擇模型。API 金鑰和位址將自動解析。",
+          "languages": "語言",
+          "select_model": "選擇模型"
         },
         "processors": {
+          "custom_document": {
+            "description": "使用已設定的模型服務提供商解析文件。",
+            "name": "自訂文件解析"
+          },
+          "custom_ocr": {
+            "description": "使用已設定的模型服務提供商進行 OCR 識別。",
+            "name": "自訂 OCR"
+          },
           "doc2x": {
             "description": "高級檔案還原引擎。",
             "name": "Doc2x"
@@ -6890,6 +6900,7 @@
           "description": "說明",
           "language_packs": "語言套件",
           "model_parameters": "模型參數",
+          "model_selection": "模型選擇",
           "status": "狀態"
         },
         "title": "文件解析"

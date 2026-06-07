@@ -74,6 +74,14 @@ const validRegistry = {
   'open-mineru': {
     isAvailable: () => true,
     capabilities: {}
+  },
+  'custom-ocr': {
+    isAvailable: () => true,
+    capabilities: {}
+  },
+  'custom-document': {
+    isAvailable: () => true,
+    capabilities: {}
   }
 } satisfies FileProcessingProcessorRegistry
 
