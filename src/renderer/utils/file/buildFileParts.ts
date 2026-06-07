@@ -81,7 +81,8 @@ function mediaTypeFor(file: FileMetadata, ext: string): string {
     if (!bare) return 'image/png'
     return `image/${bare === 'jpg' ? 'jpeg' : bare === 'svg' ? 'svg+xml' : bare}`
   }
-  return EXT_TO_MEDIA_TYPE[ext.toLowerCase()] ?? 'application/octet-stream'
+  const normalizedExt = ext.startsWith('.') ? ext.toLowerCase() : `.${ext.toLowerCase()}`
+  return EXT_TO_MEDIA_TYPE[normalizedExt] ?? 'application/octet-stream'
 }
 
 /**
