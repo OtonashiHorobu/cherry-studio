@@ -24,6 +24,7 @@
  */
 import { streamDispatchCoordinator } from '@renderer/transport/streamDispatchCoordinator'
 import type { FileMetadata } from '@renderer/types'
+import { mediaTypeFor } from '@renderer/utils/file/buildFileParts'
 import type { CherryMessagePart, CherryUIMessage } from '@shared/data/types/message'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -53,7 +54,7 @@ function buildUserMessage(input: AddPendingInput): CherryUIMessage {
     parts.push({
       type: 'file',
       url: file.path,
-      mediaType: file.ext ?? 'application/octet-stream',
+      mediaType: mediaTypeFor(file, file.ext),
       filename: file.origin_name ?? file.name
     } as CherryMessagePart)
   }

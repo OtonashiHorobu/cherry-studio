@@ -75,7 +75,7 @@ const EXT_TO_MEDIA_TYPE: Record<string, string> = {
   '.mkv': 'video/x-matroska'
 }
 
-function mediaTypeFor(file: FileMetadata, ext: string): string {
+export function mediaTypeFor(file: FileMetadata, ext: string): string {
   if (file.type === FILE_TYPE.IMAGE) {
     const bare = ext.replace(/^\./, '')
     if (!bare) return 'image/png'
